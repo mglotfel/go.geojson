@@ -100,6 +100,7 @@ func (g Geometry) MarshalJSON() ([]byte, error) {
 		BoundingBox []float64              `json:"bbox,omitempty"`
 		Coordinates interface{}            `json:"coordinates,omitempty"`
 		Geometries  interface{}            `json:"geometries,omitempty"`
+		Properties  map[string]interface{} `json:"properties"`
 		CRS         map[string]interface{} `json:"crs,omitempty"`
 	}
 
@@ -109,6 +110,10 @@ func (g Geometry) MarshalJSON() ([]byte, error) {
 
 	if g.BoundingBox != nil && len(g.BoundingBox) != 0 {
 		geo.BoundingBox = g.BoundingBox
+	}
+
+	if g.Properties != nil && len(g.Properties) != 0 {
+		geo.Properties = g.Properties
 	}
 
 	switch g.Type {
@@ -184,6 +189,10 @@ func decodeGeometry(g *Geometry, object map[string]interface{}) error {
 		g.Type = GeometryType(s)
 	} else {
 		return errors.New("type property not string")
+	}
+
+	if object["properties"] != nil {
+		g.Properties = object["properties"].(map[string]interface{})
 	}
 
 	var err error
