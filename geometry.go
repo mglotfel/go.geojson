@@ -31,6 +31,7 @@ type Geometry struct {
 	Polygon         [][][]float64
 	MultiPolygon    [][][][]float64
 	Geometries      []*Geometry
+	Properties      map[string]interface{} `json:"properties"`
 	CRS             map[string]interface{} `json:"crs,omitempty"` // Coordinate Reference System Objects are not currently supported
 }
 
