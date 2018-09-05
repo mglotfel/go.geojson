@@ -31,6 +31,17 @@ func (fc *FeatureCollection) AddFeature(feature *Feature) *FeatureCollection {
 	return fc
 }
 
+//SetCRS sets the CRS within geojson record
+func (fc *FeatureCollection) SetCRS() {
+	fc.CRS = make(map[string]interface{}, 2)
+	fc.CRS["type"] = "name"
+	fc.CRS["properties"] = struct {
+		Name string `json:"name"`
+	}{
+		Name: "urn:ogc:def:crs:OGC:1.3:CRS84",
+	}
+}
+
 // MarshalJSON converts the feature collection object into the proper JSON.
 // It will handle the encoding of all the child features and geometries.
 // Alternately one can call json.Marshal(fc) directly for the same result.
